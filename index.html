@@ -5,48 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Nhhorner.github.io : ">
     <title>Neal Horner</title>
-    <style>
-      * {
-        font-family: "Courier New", Courier, monospace;
-      }
-      body {
-        margin: 0px;
-      }
-      .center {
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-      }
-      .title {
-        font-size: 500%;
-      }
-      main {
-        width: 600px;
-      }
-      a {
-        text-decoration: none;
-        target="_blank";
-      }
-      a:visited {
-        color: blue;
-      }
-    </style>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
   </head>
   <body>
-    <div id="map" style="height: 200px;"></div>
-    <main class="center" style="margin-top:150px">
-      <span class="title">Welcome</span>
+    <div id="map" style="height: 1000px; position: relative"></div>
+    <main class="centerAbsolute centerText" style="background-color: white; opacity:0.8; padding-top: 100px">
+      <span class="title noSelect">Welcome</span>
       <p><a href="https://www.linkedin.com/in/nealhorner">LinkedIn</a></p>
-      <p><a href="https://github.com/nhhorner">GitHub</a></p>
+      <!--<p><a href="https://github.com/nhhorner">GitHub</a></p>-->
     </main>
-    <script>
-      var map = L.map('map').setView([51.505, -0.09], 13);
-      L.tileLayer('http://{s}.tiles.mapbox.com/v3/MapID/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-        maxZoom: 18
-      }).addTo(map);
-    </script>
   </body>
 </html>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css" />
+<script type="text/javascript" src="script.js"></script>
