@@ -5,37 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Nhhorner.github.io : ">
     <title>Neal Horner</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="map" style="height: 1px; position: relative"></div>
-    <main class="centerAbsolute centerText" style="background-color: white; opacity:0.5; padding-top: 100px">
+    <div id="mapWrapper" style="position: relative"></div>
+    <main id="main" class="centerAbsolute centerText" style="background-color: white; opacity:0.7; width: 700px;">
+      <div style="height: 80px;"></div>
       <span class="title noSelect">Welcome</span>
-      <p><a href="https://www.linkedin.com/in/nealhorner">LinkedIn</a></p>
-      <!--<p><a href="https://github.com/nhhorner">GitHub</a></p>-->
+      <p class="center" style="width:85%">
+        I am a senior at the University of Oregon majoring in Geography with a focus in Geographic Information Science. My professional experiences include spatial analysis, data visualization, interactive maps and scripting.
+      </p>
+      <table class="center" style="width:70%">
+        <tr>
+          <td>
+            <a href="https://www.linkedin.com/in/nealhorner" target="_blank">LinkedIn</a>
+          </td>
+          <td>
+            <a id="email"></a>
+          </td>
+          <td>
+            <a href="https://github.com/nealhorner" target="_blank">GitHub</a>
+          </td>
+        </tr>
+      </table>
     </main>
+    <script type="text/javascript">
+      document.getElementById('main').style.left = (window.innerWidth/2)-350 + 'px';
+      document.getElementById('mapWrapper').style.height = window.innerHeight + 'px';
+    </script>
   </body>
 </html>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript">
-  var resize = function(){
-    //Set Width
-    var marginFactor = 30 //Percent margin
-    var width = $( window ).width();
-    $("main").width(width*(1-(marginFactor/100)));
-    $("main").css("left", width*((marginFactor/100)/2));
-
-    //Set Height
-    var height = $( window ).height();
-    $("#map").height(height);
-    $("main").height(height -100);
-    console.log("The height of the main section: ", height);
-};
-
-resize();
-$(document).ready(resize);
-$(window).resize(resize);
-</script>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-<link rel="stylesheet" href="style.css" />
 <script type="text/javascript" src="script.js"></script>

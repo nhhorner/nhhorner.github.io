@@ -3,7 +3,7 @@
 }
 body {
   margin: 0px;
-  background-color: black;
+  background-color: #111111;
 }
 .center {
   margin-left: auto;
@@ -30,12 +30,33 @@ body {
 .title {
   font-size: 600%;
 }
+#mapWrapper {
+  width: 100%;
+  overflow:hidden;
+}
+#map {
+  width: 100%;
+}
 main {
-  width: 600px;
+  height: 100%;
 }
 a {
   text-decoration: none;
+  color: steelblue;
 }
 a:visited {
-  color: blue;
+  color: steelblue;
+}
+.project {
+  border: 1px solid #CCCCCC;
+  margin-top: 20px;
+}
+.project:hover {
+  color: #2a4e6c;
+  border: none;
+  border: 1px solid #888888;
+}
+.projectLink {
+  display: block;
+  width: 85%;
 }
