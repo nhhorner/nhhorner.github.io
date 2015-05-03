@@ -1,0 +1,63 @@
+* {
+  font-family: "Courier New", Courier, monospace;
+}
+body {
+  margin: 0px;
+  background-color: #111111;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.centerText {
+  text-align: center;
+}
+.centerAbsolute{
+  position: absolute;
+  top: 0px;
+  z-index: 99;
+  left: auto;
+  right: auto;
+}
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.title {
+  font-size: 500%;
+}
+#mapWrapper {
+  width: 100%;
+  overflow:hidden;
+}
+#map {
+  width: 100%;
+}
+main {
+  height: 100%;
+}
+main * {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: steelblue;
+}
+a:visited {
+  color: steelblue;
+}
+a:hover {
+  color: #2a4e6c;
+}
+.code {
+  opacity:1;
+  background-color: white;
+  text-align: left;
+  font-family: monospace;
+}
