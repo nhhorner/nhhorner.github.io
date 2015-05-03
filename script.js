@@ -7,5 +7,3 @@ for (var i in data) {
         $( "main" ).append( "<a class='projectLink center' class='center' href='" + data[i].url + "'><div class='project center'><h2>"+data[i].name+"</h2></div></a>" );
     }
 }
-
-$( "#mapWrapper" ).append( '<img id="map" src="dabay13.jpeg">' );

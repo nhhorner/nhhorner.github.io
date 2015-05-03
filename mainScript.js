@@ -10,3 +10,7 @@ var resize = function(){
 };
 $(document).ready(resize);
 $(window).resize(resize);
+
+$( "#mapWrapper" ).append( '<img id="map" src="http://nealhorner.com/map.jpeg">' );
+
+$("head").append('<link rel="icon" type="image/png" href="http://nealhorner.com/icon.png">');

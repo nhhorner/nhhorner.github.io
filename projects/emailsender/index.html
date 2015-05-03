@@ -5,6 +5,8 @@
         <meta charset='utf-8'>
         <link rel="stylesheet" href="../../theme.css" />
         <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        <link rel="stylesheet" href="../../code.css" />
     </head>
     <body>
     <div id="mapWrapper" style="position: relative"></div>
@@ -12,48 +14,9 @@
         <div style="height: 80px;"></div>
         <span class="title noSelect">Python Email Sender</span>
         <p style="text-align: left">
-          This script uses python's <a href="https://docs.python.org/3.4/library/smtplib.html" style="margin: 0px;">smtplib</a> module to send emails through a gmail account.
-          The function can be used to send noftifications from another script or to anoy your friends.
+          This script uses python's <a href="https://docs.python.org/3.4/library/smtplib.html" style="margin: 0px;" target="_blank">smtplib</a> module to send emails through a gmail account.
+          The function can be used to send noftifications from another script or to spam your friends.   To use this script with another SMTP server replace the parameters on line 11 with the new url and port number.
         </p>
-        <style>
-        pre.prettyprint { display: block; background-color: #333 }
-        pre .nocode { background-color: none; color: #000 }
-        pre .str { color: #ffa0a0 } /* string  - pink */
-        pre .kwd { color: #f0e68c; font-weight: bold }
-        pre .com { color: #87ceeb } /* comment - skyblue */
-        pre .typ { color: #98fb98 } /* type    - lightgreen */
-        pre .lit { color: #cd5c5c } /* literal - darkred */
-        pre .pun { color: #fff }    /* punctuation */
-        pre .pln { color: #fff }    /* plaintext */
-        pre .tag { color: #f0e68c; font-weight: bold } /* html/xml tag    - lightyellow */
-        pre .atn { color: #bdb76b; font-weight: bold } /* attribute name  - khaki */
-        pre .atv { color: #ffa0a0 } /* attribute value - pink */
-        pre .dec { color: #98fb98 } /* decimal         - lightgreen */
-
-        /* Specify class=linenums on a pre to get line numbering */
-        ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE } /* IE indents via margin-left */
-        /* Alternate shading for lines */
-        li.L1,li.L3,li.L5,li.L7,li.L9 { }
-        ol li {
-          background: #333;
-        }
-
-        @media print {
-          pre.prettyprint { background-color: none }
-          pre .str, code .str { color: #060 }
-          pre .kwd, code .kwd { color: #006; font-weight: bold }
-          pre .com, code .com { color: #600; font-style: italic }
-          pre .typ, code .typ { color: #404; font-weight: bold }
-          pre .lit, code .lit { color: #044 }
-          pre .pun, code .pun { color: #440 }
-          pre .pln, code .pln { color: #000 }
-          pre .tag, code .tag { color: #006; font-weight: bold }
-          pre .atn, code .atn { color: #404 }
-          pre .atv, code .atv { color: #060 }
-        }
-         .prettyprint ol.linenums > li { list-style-type: decimal; }
-         li.L1,li.L3,li.L5,li.L7,li.L9{background:#222}
-         </style>
         <?prettify lang=python linenums=true?>
         <pre class="code prettyprint">
 import smtplib
@@ -65,7 +28,6 @@ CC: %s
 Subject: %s
 
 %s''' % (FROM, ", ".join(TO), CC, SUBJECT, TEXT)
-    print(message)
     server = smtplib.SMTP('smtp.gmail.com', 587) # SMTP
     server.ehlo()
     server.starttls()
@@ -98,6 +60,4 @@ sendEmail(FROM, TO, CC, SUBJECT, TEXT, username, password)
     </body>
 </html>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript">$( "#mapWrapper" ).append( '<img id="map" src="../../dabay13.jpeg">' );</script>
 <script type="text/javascript" src="../../mainScript.js"></script>
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
