@@ -1,4 +1,4 @@
-$( "#email" ).append( "thenealhorner" + "[at]" + "gmail" + ".com");
+$( "#email" ).append( "thenealhorner" + "@" + "gmail" + ".com");
 /*
 for (var i in data) {
     if (data[i].image.length > 1) {
