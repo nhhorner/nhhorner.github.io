@@ -16,8 +16,18 @@
         </style>
     </head>
     <body>
-         <h1 class="centerText ">HTTP 404: page not found</h1>
-        <div class="center" style="width:432px"><img  src="/images/404.gif"></div>
+      <div class="center"  id="main" style="width:432px">
+         <h1 class="centerText ">page not found</h1>
+          <img  src="images/404.gif">
         <a class="centerText " href="http://nealhorner.com"><h1>home page</h1></a>
+        </div>
     </body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var resize = function(){
+            $("#main").css("margin-top", ($( window ).height()/3)-($("#main").height()/2));
+        };
+        $(document).ready(resize);
+        $(window).resize(resize);
+    </script>
 </html>
