@@ -1,5 +1,6 @@
 * {
   font-family: "Courier New", Courier, monospace;
+  font-size: 120%;
 }
 body {
   margin: 0px;
@@ -27,8 +28,8 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-.title {
-  font-size: 500%;
+#title {
+  font-size: 400%;
 }
 #mapWrapper {
   width: 100%;
@@ -46,14 +47,15 @@ main * {
 }
 a {
   text-decoration: none;
-  font-weight: bold;
-  color: steelblue;
+  color: #325176;
+  font-size: 50%;
 }
 a:visited {
-  color: steelblue;
+  color: #325176;
 }
 a:hover {
-  color: #2a4e6c;
+  color: #000;
+  /*color: #2a4e6c;*/
 }
 .code {
   opacity:1;
