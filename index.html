@@ -15,6 +15,7 @@
         max-width: 970px;
         padding-left: 10px;
         padding-right: 10px;
+        padding-top: 50px;
     }
     #random_walk {height: 100%;}
     #main, #ramdon_walk {
@@ -25,23 +26,23 @@
     }
     #title {
         font-size: 1000%;
-        padding-top: 50px;
-        text-shadow: 0px 0px 2px white;
     }
     svg {
         width: 100%;
         float: left;
     }
     p {
-        text-shadow: 0px 0px 2px white;
-        font-size: 150%;
+        font-size: 185%;
+        font-weight: bold;
     }
+    p:hover {background-color: rgba(255,255,255,0.7);}
     a {
         text-decoration: none;
         font-weight: bold;
-        padding: 5px;
+        padding: 10px;
         color: #0079A3;
-        font-size: 130%;
+        font-size: 180%;
+        border-radius: 3px;
     }
     a:visited {
         text-decoration: line-through
@@ -50,24 +51,74 @@
         background-color: #0079A3;
         color: #FFF;
     }
+    #project_title {
+        color: #0079A3;
+        font-size: 180%;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 3px;
+    }
+    #project_title:hover {
+        background-color: #0079A3;
+        color: #FFF;
+    }
+    .project_lines {
+        display: none;
+        /*border: 2px solid #0079A3;*/
+        border: 1px solid black;
+        width:100%;
+    }
+    .link_class {
+        display:inline-block;
+        width:100%;
+        height:100%;
+    }
+    .project {
+        padding-right: 18px;
+        margin-bottom: 2px;
+    }
+    .noselect {
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
     </style>
   </head>
   <body>
     <div id="random_walk"></div>
     <div id="main">
-      <div id="title" class="noSelect">Welcome</div>
+      <span id="title" class="noSelect">Welcome</span>
       <p>
-        I am a recent graduate of the University of Oregon, where I majored in Geography with a focus in Geographic Information Sciences. My professional experiences include spatial analysis, data visualization, programming.
+        I recently graduated of the University of Oregon, where I majored in Geography with a focus in Geographic Information Sciences. My professional experiences include spatial analysis, data visualization, programming.
       </p>
-      <div class="center_text" style="height: 20px;">
-        <div style="width: 50%; float: left; text-align: center;"><a href="https://www.linkedin.com/in/nealhorner" target="_blank">LinkedIn</a></div>
-        <div style="width: 50%; float: left; text-align: center;"><a href="https://github.com/nealhorner" target="_blank">GitHub</a></div>
-        <div style="clear: both;"></div>
-      </div>
+<!--       <div style="margin-top: 50px" class="noselect">
+            <span id="project_title"><span id="project_symbol">+</span> Projects & Tidbits</span>
+            <hr class="project_lines" style="margin-top: 15px;">
+            <div id="projects_containter"></div>
+            <hr class="project_lines">
+        </div>
+        <br>
+        <br> -->
+        <a href="https://www.linkedin.com/in/nealhorner" target="_blank">LinkedIn</a>
+        <br>
+        <br>
+        <br>
+        <a href="https://github.com/nealhorner" target="_blank">GitHub</a>
     </div>
     <div id="place_holder" style="width: 1px"></div>
     <script src="./scripts/jquery.min.js"></script>
     <script type="text/javascript">
+        // //Line hover
+        // $("p").hover(function() {
+        //     $(".line").css("opacity", 0.5);
+        // }, function() {
+        //     $(".line").css("opacity", 1);
+        // });
+
         //Resize
         var size = function() {
             var main_margin = ($(document).width() - $("#main").width())/2;
@@ -75,9 +126,7 @@
             $("#main").css("margin-right", main_margin);
         }
         size()
-    </script>
-    <script type="text/javascript">
-        //Resize
+
         var resizeElements = function() {
             var width = $(window).width();
             if (width > 1000) {
@@ -89,6 +138,44 @@
             $("#main").css("margin-left")
         }
         $(window).resize(resizeElements);
+
+        //Projects & Tidbits
+        // $("#project_title").hover(function() {
+        //     $(".project_lines").css("display", "block");
+        //     if (!projects_visible) {
+        //         $( ".project_lines" ).eq(0).animate({
+        //             marginBottom: "15px"
+        //     }, 500);
+        //                 }
+        // }, function() {
+        //     if (!projects_visible) {
+        //         $(".project_lines").css("display", "none");
+        //         $( ".project_lines" ).eq(0).css("margin-bottom",0);
+        //     }
+        // });
+
+        var project_data = [
+            {"title":"Test Item 1", "url":"http://nealhorner.com", "month":"June", "year":"2015"},
+            {"title":"Test Item 2", "url":"http://nealhorner.com", "month":"May", "year":"2015"}
+        ];
+
+        var projects_visible = false;
+        $("#project_title").click(function() {
+            if (!projects_visible) {
+                $("#project_symbol").html("-");
+                $(".project_lines").css("display", "block");
+                $( ".project_lines" ).eq(0).css("margin-bottom",15);
+                for (var i in project_data) {
+                    $("#projects_containter").append("<div class='project'><a class='link_class' href='" + project_data[i].url + "'>" + project_data[i].title + "<span style='float:right'>" + project_data[i].month + " " + project_data[i].year + "</span></a></div>");
+                }
+                projects_visible = true;
+            } else {
+                $("#project_symbol").html("+");
+                $(".project_lines").css("display", "none");
+                $("#projects_containter").empty();
+                projects_visible = false;
+            }
+        });
 
         //Random Walk
         $("#random_walk").append("<svg></svg>");
@@ -133,7 +220,8 @@
             newLine.setAttribute('x2',points[set][0]);
             newLine.setAttribute('y2',points[set][1]);
             newLine.setAttribute('stroke', color_palette[set]);
-            newLine.setAttribute('stroke-width','0.5');
+            newLine.setAttribute('stroke-width','1');
+            newLine.setAttribute('class','line');
             $("svg").append(newLine);
 
             line_count += 1;
