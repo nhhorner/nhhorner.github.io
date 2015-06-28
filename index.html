@@ -3,243 +3,30 @@
     <head>
     <meta charset='utf-8'>
     <title>Neal Horner</title>
-    <style type="text/css">
-    html, body {
-        margin:0;
-        padding:0;
-        height:100%;
-        font-family: "Courier New", Courier, monospace;
-    }
-    body {position: relative;}
-    #main {
-        max-width: 970px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 50px;
-    }
-    #random_walk {height: 100%;}
-    #main, #ramdon_walk {
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    #title {
-        font-size: 1000%;
-    }
-    svg {
-        width: 100%;
-        float: left;
-    }
-    p {
-        font-size: 185%;
-        font-weight: bold;
-    }
-    p:hover {background-color: rgba(255,255,255,0.7);}
-    a {
-        text-decoration: none;
-        font-weight: bold;
-        padding: 10px;
-        color: #0079A3;
-        font-size: 180%;
-        border-radius: 3px;
-    }
-    a:visited {
-        text-decoration: line-through
-    }
-    a:hover {
-        background-color: #0079A3;
-        color: #FFF;
-    }
-    #project_title {
-        color: #0079A3;
-        font-size: 180%;
-        font-weight: bold;
-        padding: 10px;
-        border-radius: 3px;
-    }
-    #project_title:hover {
-        background-color: #0079A3;
-        color: #FFF;
-    }
-    .project_lines {
-        display: none;
-        /*border: 2px solid #0079A3;*/
-        border: 1px solid black;
-        width:100%;
-    }
-    .link_class {
-        display:inline-block;
-        width:100%;
-        height:100%;
-    }
-    .project {
-        padding-right: 18px;
-        margin-bottom: 2px;
-    }
-    .noselect {
-        cursor: pointer;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
   </head>
   <body>
     <div id="random_walk"></div>
-    <div id="main">
-      <span id="title" class="noSelect">Welcome</span>
-      <p>
-        I recently graduated of the University of Oregon, where I majored in Geography with a focus in Geographic Information Sciences. My professional experiences include spatial analysis, data visualization, programming.
-      </p>
-<!--       <div style="margin-top: 50px" class="noselect">
-            <span id="project_title"><span id="project_symbol">+</span> Projects & Tidbits</span>
-            <hr class="project_lines" style="margin-top: 15px;">
-            <div id="projects_containter"></div>
-            <hr class="project_lines">
+    <div id="main_container">
+        <div id="main">
+            <div id="main_height">
+                <div id="title" class="noselect">Welcome</div>
+                <p>
+                    I recently graduated of the University of Oregon, where I majored in Geography with a focus in Geographic Information Sciences. My professional experiences include spatial analysis, data visualization, programming.
+                </p>
+<!--                 <div style="margin-top: 50px; margin-bottom: 30px;" class="noselect">
+                    <span id="project_title"><span id="project_symbol">+</span> Projects & Tidbits</span>
+                    <hr class="project_lines" style="margin-top: 15px;">
+                    <div id="projects_containter"></div>
+                    <hr class="project_lines">
+                </div> -->
+                <div class="link"><a href="https://www.linkedin.com/in/nealhorner" target="_blank">LinkedIn</a></div>
+                <div class="link"><a href="https://github.com/nealhorner" target="_blank">GitHub</a></div>
+                <br>
+            </div>
         </div>
-        <br>
-        <br> -->
-        <a href="https://www.linkedin.com/in/nealhorner" target="_blank">LinkedIn</a>
-        <br>
-        <br>
-        <br>
-        <a href="https://github.com/nealhorner" target="_blank">GitHub</a>
     </div>
-    <div id="place_holder" style="width: 1px"></div>
-    <script src="./scripts/jquery.min.js"></script>
-    <script type="text/javascript">
-        // //Line hover
-        // $("p").hover(function() {
-        //     $(".line").css("opacity", 0.5);
-        // }, function() {
-        //     $(".line").css("opacity", 1);
-        // });
-
-        //Resize
-        var size = function() {
-            var main_margin = ($(document).width() - $("#main").width())/2;
-            $("#main").css("margin-left", main_margin);
-            $("#main").css("margin-right", main_margin);
-        }
-        size()
-
-        var resizeElements = function() {
-            var width = $(window).width();
-            if (width > 1000) {
-                $("#main").width(970);
-                main_margin = (width - 970) / 2;
-                $("#main").css("margin-left", main_margin);
-                $("#main").css("margin-right", main_margin);
-            }
-            $("#main").css("margin-left")
-        }
-        $(window).resize(resizeElements);
-
-        //Projects & Tidbits
-        // $("#project_title").hover(function() {
-        //     $(".project_lines").css("display", "block");
-        //     if (!projects_visible) {
-        //         $( ".project_lines" ).eq(0).animate({
-        //             marginBottom: "15px"
-        //     }, 500);
-        //                 }
-        // }, function() {
-        //     if (!projects_visible) {
-        //         $(".project_lines").css("display", "none");
-        //         $( ".project_lines" ).eq(0).css("margin-bottom",0);
-        //     }
-        // });
-
-        var project_data = [
-            {"title":"Test Item 1", "url":"http://nealhorner.com", "month":"June", "year":"2015"},
-            {"title":"Test Item 2", "url":"http://nealhorner.com", "month":"May", "year":"2015"}
-        ];
-
-        var projects_visible = false;
-        $("#project_title").click(function() {
-            if (!projects_visible) {
-                $("#project_symbol").html("-");
-                $(".project_lines").css("display", "block");
-                $( ".project_lines" ).eq(0).css("margin-bottom",15);
-                for (var i in project_data) {
-                    $("#projects_containter").append("<div class='project'><a class='link_class' href='" + project_data[i].url + "'>" + project_data[i].title + "<span style='float:right'>" + project_data[i].month + " " + project_data[i].year + "</span></a></div>");
-                }
-                projects_visible = true;
-            } else {
-                $("#project_symbol").html("+");
-                $(".project_lines").css("display", "none");
-                $("#projects_containter").empty();
-                projects_visible = false;
-            }
-        });
-
-        //Random Walk
-        $("#random_walk").append("<svg></svg>");
-
-        var step_distance = 10;
-        var y_max = $("#random_walk").height();
-        var x_max = $("#random_walk").width();
-        var walking = true;
-        var line_count = 0;
-        var points = [[0,0],[0,y_max],[x_max,y_max],[x_max,0]]
-        var color_palette = ["#504D7F","#9C8105","#244031","#E57769"];
-
-        var nextPoint = function(set) {
-          var random_number = Math.random();
-          if (random_number < 0.125) {set[1] += step_distance}
-          if (random_number >= 0.125 && random_number < 0.25) {set[1] += step_distance; set[0] += step_distance}
-          if (random_number >= 0.25 && random_number < 0.375) {set[0] += step_distance}
-          if (random_number >= 0.375 && random_number < 0.5) {set[1] -= step_distance; set[0] += step_distance}
-          if (random_number >= 0.5 && random_number < 0.625) {set[1] -= step_distance;}
-          if (random_number >= 0.625 && random_number < 0.75) {set[1] -= step_distance; set[0] -= step_distance}
-          if (random_number >= 0.75 && random_number < 0.875) {set[0] -= step_distance}
-          if (random_number >= 0.875) {set[1] += step_distance; set[0] -= step_distance}
-
-          if (set[0] < 0) {set[0] = 0;}
-          if (set[0] > $("#random_walk").width()) {set[0] -= step_distance;}
-          if (set[1] < 0) {set[1] = 0;}
-          if (set[1] > $("#random_walk").height()) {set[1] -= step_distance;}
-
-          return [set[0],set[1]]
-        }
-
-        var walk = function (points) {
-          $("svg").height($("#random_walk").height()-5);
-
-          for (var set in points) {
-            old_point_x = points[set][0];
-            old_point_y = points[set][1];
-            points[set] = nextPoint(points[set]);
-            var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
-            newLine.setAttribute('x1',old_point_x);
-            newLine.setAttribute('y1',old_point_y);
-            newLine.setAttribute('x2',points[set][0]);
-            newLine.setAttribute('y2',points[set][1]);
-            newLine.setAttribute('stroke', color_palette[set]);
-            newLine.setAttribute('stroke-width','1');
-            newLine.setAttribute('class','line');
-            $("svg").append(newLine);
-
-            line_count += 1;
-
-            if (line_count > 8000) {
-                $("svg").find(':first-child').remove();
-                line_count -= 1;
-            }
-          }
-
-          window.setTimeout(function() {
-            if (walking) {
-                walk(points);
-            }
-          }, 1);
-        }
-
-        walk(points);
-    </script>
+    <script type="text/javascript" src="./scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="./scripts/script.js"></script>
   </body>
 </html>
