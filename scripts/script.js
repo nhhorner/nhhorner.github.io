@@ -1,40 +1,56 @@
-//Projects & Tidbits
-$("#project_title").hover(function() {
-    $(".project_lines").css("display", "block");
-    if (!projects_visible) {
-        $( ".project_lines" ).eq(0).animate({
-            marginBottom: "15px"
-    }, 500);
-                }
-}, function() {
-    if (!projects_visible) {
-        $(".project_lines").css("display", "none");
-        $( ".project_lines" ).eq(0).css("margin-bottom",0);
-    }
-});
+//Resize
+var resize_height = function() {
+  if ($(window).height() > $("#main_height").height()) {
+    $("#main").height($(window).height());
+    $("#main_container").height($(window).height());
+  } else {
+    $("#main").height($("#main_height").height());
+    $("#main_container").height($("#main_height").height());
+  }
+}
+resize_height();
+$(window).resize(resize_height);
 
-var project_data = [
-    {"title":"Test Item 1", "url":"http://nealhorner.com", "month":"June", "year":"2015"},
-    {"title":"Test Item 2", "url":"http://nealhorner.com", "month":"May", "year":"2015"}
-];
+// //Projects & Tidbits
+// $("#project_title").hover(function() {
+//     $(".project_lines").css("display", "block");
+//     if (!projects_visible) {
+//         $( ".project_lines" ).eq(0).animate({
+//             marginBottom: "15px"
+//         }, 500);
+//     }
+//     resize_height();
+// }, function() {
+//     if (!projects_visible) {
+//         $(".project_lines").css("display", "none");
+//         $( ".project_lines" ).eq(0).css("margin-bottom",0);
+//     }
+//     resize_height();
+// });
 
-var projects_visible = false;
-$("#project_title").click(function() {
-    if (!projects_visible) {
-        $("#project_symbol").html("-");
-        $(".project_lines").css("display", "block");
-        $( ".project_lines" ).eq(0).css("margin-bottom",15);
-        for (var i in project_data) {
-            $("#projects_containter").append("<div class='project'><a class='link_class' href='" + project_data[i].url + "'>" + project_data[i].title + "<span style='float:right'>" + project_data[i].month + " " + project_data[i].year + "</span></a></div>");
-        }
-        projects_visible = true;
-    } else {
-        $("#project_symbol").html("+");
-        $(".project_lines").css("display", "none");
-        $("#projects_containter").empty();
-        projects_visible = false;
-    }
-});
+// var project_data = [
+//     {"title":"Test Item 1", "url":"http://nealhorner.com", "month":"June", "year":"2015"},
+//     {"title":"Test Item 2", "url":"http://nealhorner.com", "month":"May", "year":"2015"}
+// ];
+
+// var projects_visible = false;
+// $("#project_title").click(function() {
+//     if (!projects_visible) {
+//         $("#project_symbol").html("-");
+//         $(".project_lines").css("display", "block");
+//         $( ".project_lines" ).eq(0).css("margin-bottom",15);
+//         for (var i in project_data) {
+//             $("#projects_containter").append("<div class='project'><a class='link_class' href='" + project_data[i].url + "'>" + project_data[i].title + "<span style='float:right'>" + project_data[i].month + " " + project_data[i].year + "</span></a></div>");
+//         }
+//         projects_visible = true;
+//     } else {
+//         $("#project_symbol").html("+");
+//         $(".project_lines").css("display", "none");
+//         $("#projects_containter").empty();
+//         projects_visible = false;
+//     }
+//     resize_height();
+// });
 
 //Random Walk
 $("#random_walk").append("<svg></svg>");
@@ -70,7 +86,7 @@ var nextPoint = function(set) {
 }
 
 var walk = function (points) {
-  $("svg").height($("#random_walk").height()-5);
+  $("svg").height($("#random_walk").height());
 
   for (var set in points) {
     old_point_x = points[set][0];
