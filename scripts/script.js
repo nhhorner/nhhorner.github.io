@@ -117,3 +117,15 @@ var walk = function (points) {
 }
 
 walk(points);
+
+//Link Hover
+var src_toggle = {
+  "./images/GitHub-Mark-64px.png":"./images/GitHub-Mark-Light-64px.png", "./images/GitHub-Mark-Light-64px.png":"./images/GitHub-Mark-64px.png",
+  "./images/In-Black-66px-R.png":"./images/In-White-66px-R.png", "./images/In-White-66px-R.png":"./images/In-Black-66px-R.png"
+}
+$("a")
+  .mouseover(function() {
+    $(this).children("img").attr("src", src_toggle[$(this).children("img").attr("src")]);
+  }) .mouseout(function() {
+    $(this).children("img").attr("src", src_toggle[$(this).children("img").attr("src")]);
+  });
