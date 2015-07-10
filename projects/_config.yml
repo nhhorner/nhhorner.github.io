@@ -1,0 +1,6 @@
+# Site settings
+title: Neal Horner Blog
+baseurl: "/projects" # the subpath of your site, e.g. /blog/
+
+# Build settings
+markdown: kramdown
