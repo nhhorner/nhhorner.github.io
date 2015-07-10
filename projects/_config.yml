@@ -1,6 +1,8 @@
 # Site settings
 title: Neal Horner Blog
-baseurl: "/projects" # the subpath of your site, e.g. /blog/
+baseurl: "/projects"
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
+highlighter: pygments
+encoding: utf-8
