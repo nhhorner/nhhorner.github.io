@@ -4,5 +4,4 @@ baseurl: "/projects"
 
 # Build settings
 markdown: redcarpet
-highlighter: pygments
 encoding: utf-8
