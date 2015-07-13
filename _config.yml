@@ -1,6 +1,7 @@
 # Site settings
-title: Neal Horner Blog
-baseurl: "/projects"
+title: Neal Horner's Blog
+baseurl: ""
+permalink: /posts/:title
 
 # Build settings
 markdown: redcarpet
