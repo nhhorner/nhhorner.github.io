@@ -31,7 +31,7 @@ header div a img {
     padding-right: 5px;
     padding-top: 4px;
     padding-bottom: 4px;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 header div a img:hover {
     background-color: #dfdfdf;
