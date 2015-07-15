@@ -15,23 +15,24 @@ $(window).resize(resize_height);
 // $("#project_title").hover(function() {
 //     $(".project_lines").css("display", "block");
 //     if (!projects_visible) {
+//       $("#project_symbol").attr("src", "http://nealhorner.com/images/plusW.png");
 //         $( ".project_lines" ).eq(0).animate({
 //             marginBottom: "15px"
 //         }, 500);
+//     } else {
+//       $("#project_symbol").attr("src", "http://nealhorner.com/images/minusW.png");
 //     }
 //     resize_height();
 // }, function() {
 //     if (!projects_visible) {
 //         $(".project_lines").css("display", "none");
 //         $( ".project_lines" ).eq(0).css("margin-bottom",0);
+//         $("#project_symbol").attr("src", "http://nealhorner.com/images/plus.png");
+//     } else {
+//       $("#project_symbol").attr("src", "http://nealhorner.com/images/minus.png");
 //     }
 //     resize_height();
 // });
-
-// var project_data = [
-//     {"title":"Test Item 1", "url":"http://nealhorner.com", "month":"June", "year":"2015"},
-//     {"title":"Test Item 2", "url":"http://nealhorner.com", "month":"May", "year":"2015"}
-// ];
 
 // var projects_visible = false;
 // $("#project_title").click(function() {
@@ -39,14 +40,12 @@ $(window).resize(resize_height);
 //         $("#project_symbol").html("-");
 //         $(".project_lines").css("display", "block");
 //         $( ".project_lines" ).eq(0).css("margin-bottom",15);
-//         for (var i in project_data) {
-//             $("#projects_containter").append("<div class='project'><a class='link_class' href='" + project_data[i].url + "'>" + project_data[i].title + "<span style='float:right'>" + project_data[i].month + " " + project_data[i].year + "</span></a></div>");
-//         }
+//         $(".project").css("display", "block");
 //         projects_visible = true;
 //     } else {
 //         $("#project_symbol").html("+");
+//         $(".project").css("display", "none");
 //         $(".project_lines").css("display", "none");
-//         $("#projects_containter").empty();
 //         projects_visible = false;
 //     }
 //     resize_height();
