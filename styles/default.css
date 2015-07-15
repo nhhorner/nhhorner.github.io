@@ -18,21 +18,24 @@ header div {
     max-width: 970px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 400%;
     padding-top: 4px;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
 }
 header div a{
-    text-decoration: none;
-    color: black;
+    height: 40px;
+}
+header div a img {
+    height: 40px;
     border: 1px solid #eee;
     padding-left: 5px;
     padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 5px;
 }
-header div a:hover {
+header div a img:hover {
     background-color: #dfdfdf;
     border-color: #ccc;
-    border-radius: 5px;
 }
 #heading {
     margin-top: 10px;
