@@ -1,0 +1,88 @@
+---
+layout: default
+title:  "Map Image Exporter"
+date:   2015-07-14 18:42:32
+---
+<script type="text/javascript">window.L_PREFER_CANVAS = true;</script>
+<script type="text/javascript" src="/scripts/mapbox_2_0_1.js"></script>
+<link rel="stylesheet" type="text/css" href="/styles/mapbox_2_0_1.css">
+<script type="text/javascript" src="/scripts/leaflet-image_0_0_4.js"></script>
+<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="/scripts/underscore-min_1_8_3.js"></script>
+<script type="text/javascript" src="/scripts/map_image_export_pre.js"></script>
+<link rel="stylesheet" type="text/css" href="/styles/map_image_export.css">
+
+<p>This project is a modified version of a GitHub <a href="https://github.com/datadesk/print-map-maker">repo</a>, created by <a href="http://www.latimes.com/local/datadesk/">Los Angeles Times Data Desk</a>.  Make sure to give proper attribution to Mapbox, Open Street Map and to the designer of map style that you use.</p>
+<div id="menu1" class="section">
+    <h1 style="margin: 0px;">Settings</h1>
+    <h3>Choose Basemap</h3>
+    <select id="mapPicker">
+        <option value="mapbox.streets">Mapbox Streets</option>
+        <option value="examples.3hqcl3di">Mapbox Space</option>
+        <option value="examples.ra3sdcxr">Mapbox Foursquare</option>
+        <option value="saman.h6ek9086">Mapbox Assemblage</option>
+        <option value="examples.a3cad6da">Mapbox Pirate</option>
+        <option value="mslee.h1kk2o6r">Mapbox Drone</option>
+        <option value="villeda.c4c63d13">Mapbox Bay</option>
+        <option value="villeda.iaegsyvi">Mapbox Weather</option>
+        <option value="examples.a4c252ab">Mapbox Pencil</option>
+        <option value="latimesmapping.f3da9821">LA Times Flat World</option>
+        <option value="latimesmapping.e12be540">LA Times Relief World</option>
+        <option value="nhhorner.aaf9a69b">Neal Horner Dark Orange (z10 - z13)</option>
+    </select>
+    <div class="note">Or add your own style</div>
+    <input id="style_id" type="text" placeholder="Style ID (Ex. mapbox.streets)" style="width:200px; padding: 2px 2px;">
+    <input id="style_name" type="text" placeholder="Style Name (Ex. Mapbox Streets)" style="width:200px; padding: 2px 2px;">
+    <input type="button" value="Add Mapbox Style" onclick="add_style()">
+
+    <h3>Choose Location</h3>
+    <input class="geocodify" type="text" id="address" placeholder="Enter a complete address" style="width:300px; padding: 2px 2px;">
+    <input type="button" onclick="findAddress()" id="addressBtn" value="Go">
+    <div class="note">Or</div>
+    <input class="geocodify" type="text" id="lat" style="width:100px; padding: 2px 2px;" placeholder="Latitude (D.D.)">
+    <input class="geocodify" type="text" id="lon" style="width:100px; padding: 2px 2px;" placeholder="Longitude (D.D.)">
+    <input type="button" onclick="findLatLon()" id="latLonBtn" value="Go">
+
+    <h3>Add GeoJSON</h3>
+    <textarea class="geocodify" id="addJson" rows="8" cols="60"></textarea><br>
+    <input type="button" onclick="addJsonFeature()" id="addJsonBtn" value="Add GeoJSON">
+
+    <h3>Change Map Size</h3>
+    <input class="" type="text" id="width" style="width:100px; padding: 2px 2px;" placeholder="300 pixels">
+    <input class="" type="text" id="height" style="width:100px; padding: 2px 2px;" placeholder="300 pixels">
+    <input type="button" onclick="resizemap()" id="" value="Resize Map">
+
+    <h3>Change Map Zoom Level: <span id="zoom_level">10</span></h3>
+    <div class="range_container">
+        <div>
+            <input type="range" id="zoom_slider" value=10 min=0 max=19 oninput="outputUpdate(value)" list="volsettings">
+            <datalist id="volsettings">
+                <option>0</option>
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+            </datalist>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</div><br>
+<div id="active_map_container" class="section">
+    <h1 style="margin-top:0px; margin-bottom: 10px;">Active Viewport</h1>
+    <div id="another_container">
+        <div id="active_map"></div>
+    </div>
+    <input type="button" name="active_map" value="Create PNG" onclick="gatherinfo(active_map)" style="padding: 10px; margin-top: 5px;">
+</div><br>
+<div id="static-map" class="section">
+    <h1 style="margin-top:0px; margin-bottom: 10px;">Static Export</h1>
+    <div id="sm" style="border: 1px solid #999; background-color: white; height: 100px; width: 100px;">
+        <p style="margin:10px;">Click 'Create PNG' to create a Map to export<p>
+    </div>
+    <a id="download_link">
+        <button id="download" type="submit" disabled style="padding: 10px; margin-top: 5px;" onclick="image_export()">Download</button>
+    </a>
+
+</div>
+<div></div>
+<script type="text/javascript" src="/scripts/map_image_export_post.js"></script>
