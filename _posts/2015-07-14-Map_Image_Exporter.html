@@ -13,7 +13,11 @@ date:   2015-07-14 18:42:32
 <script type="text/javascript" src="/scripts/map_image_export_pre.js"></script>
 <link rel="stylesheet" type="text/css" href="/styles/map_image_export.css">
 
-<p>This project is a modified version of a GitHub <a href="https://github.com/datadesk/print-map-maker">repo</a>, created by <a href="http://www.latimes.com/local/datadesk/">Los Angeles Times Data Desk</a>.  Make sure to give proper attribution to Mapbox, Open Street Map and to the designer of map style that you use.</p>
+<p>
+This project is a modified version of a GitHub <a href="https://github.com/datadesk/print-map-maker">repo</a>, created by <a href="http://www.latimes.com/local/datadesk/">Los Angeles Times Data Desk</a>.
+Make sure to give proper attribution to <a href="https://www.mapbox.com/">Mapbox</a>, <a href="https://www.openstreetmap.org/">OpenStreetMap</a> and to the designer of map style that you use.
+Large maps may take a long time to process.
+</p>
 <div id="menu1" class="section">
     <h1 style="margin: 0px;">Settings</h1>
     <h3>Choose Basemap</h3>
@@ -72,14 +76,16 @@ date:   2015-07-14 18:42:32
 </div><br>
 <div id="active_map_container" class="section">
     <h1 style="margin-top:0px; margin-bottom: 10px;">Active Viewport</h1>
-    <div id="another_container">
-        <div id="active_map"></div>
+    <div style="border: 1px solid #999;">
+        <div id="another_container">
+            <div id="active_map"></div>
+        </div>
     </div>
     <input type="button" name="active_map" value="Create PNG" onclick="gatherinfo(active_map)" style="padding: 10px; margin-top: 5px;">
 </div><br>
 <div id="static-map" class="section">
     <h1 style="margin-top:0px; margin-bottom: 10px;">Static Export</h1>
-    <div id="sm" style="border: 1px solid #999; background-color: white; height: 100px; width: 100px;">
+    <div id="sm" style="border: 1px solid #999; background-color: white; height: 100px; width: 100px; ">
         <p style="margin:10px;">Click 'Create PNG' to create a Map to export<p>
     </div>
     <a id="download_link">

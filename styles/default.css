@@ -4,12 +4,6 @@ body, html {
     height: 100%;
     font-family: Verdana, Arial, sans-serif;
 }
-footer {
-    max-width: 970px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 50px;
-}
 header {
     background-color: #eee;
     border-bottom: 1px solid #ccc;
@@ -20,6 +14,7 @@ header div {
     margin-right: auto;
     padding-top: 4px;
     padding-bottom: 2px;
+    padding-left: 20px;
 }
 header div a{
     height: 40px;
@@ -55,7 +50,5 @@ header div a img:hover {
     max-width: 970px;
     margin-left: auto;
     margin-right: auto;
-}
-#page-content *{
-    max-width: 970px
+    padding-left: 20px;
 }

@@ -11,45 +11,36 @@ var resize_height = function() {
 resize_height();
 $(window).resize(resize_height);
 
-// //Projects & Tidbits
-// $("#project_title").hover(function() {
-//     $(".project_lines").css("display", "block");
-//     if (!projects_visible) {
-//       $("#project_symbol").attr("src", "http://nealhorner.com/images/plusW.png");
-//         $( ".project_lines" ).eq(0).animate({
-//             marginBottom: "15px"
-//         }, 500);
-//     } else {
-//       $("#project_symbol").attr("src", "http://nealhorner.com/images/minusW.png");
-//     }
-//     resize_height();
-// }, function() {
-//     if (!projects_visible) {
-//         $(".project_lines").css("display", "none");
-//         $( ".project_lines" ).eq(0).css("margin-bottom",0);
-//         $("#project_symbol").attr("src", "http://nealhorner.com/images/plus.png");
-//     } else {
-//       $("#project_symbol").attr("src", "http://nealhorner.com/images/minus.png");
-//     }
-//     resize_height();
-// });
+//Projects & Tidbits
+$("#project_title").hover(function() {
+    if (!projects_visible) {
+      $("#project_symbol").attr("src", "http://nealhorner.com/images/plusW.png");
+    } else {
+      $("#project_symbol").attr("src", "http://nealhorner.com/images/minusW.png");
+    }
+    resize_height();
+}, function() {
+    if (!projects_visible) {
+        $("#project_symbol").attr("src", "http://nealhorner.com/images/plus.png");
+    } else {
+      $("#project_symbol").attr("src", "http://nealhorner.com/images/minus.png");
+    }
+    resize_height();
+});
 
-// var projects_visible = false;
-// $("#project_title").click(function() {
-//     if (!projects_visible) {
-//         $("#project_symbol").html("-");
-//         $(".project_lines").css("display", "block");
-//         $( ".project_lines" ).eq(0).css("margin-bottom",15);
-//         $(".project").css("display", "block");
-//         projects_visible = true;
-//     } else {
-//         $("#project_symbol").html("+");
-//         $(".project").css("display", "none");
-//         $(".project_lines").css("display", "none");
-//         projects_visible = false;
-//     }
-//     resize_height();
-// });
+var projects_visible = false;
+$("#project_title").click(function() {
+    if (!projects_visible) {
+        $("#project_symbol").html("-");
+        $(".project").css("display", "block");
+        projects_visible = true;
+    } else {
+        $("#project_symbol").html("+");
+        $(".project").css("display", "none");
+        projects_visible = false;
+    }
+    resize_height();
+});
 
 //Random Walk
 $("#random_walk").append("<svg></svg>");
