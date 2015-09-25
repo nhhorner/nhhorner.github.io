@@ -1,0 +1,206 @@
+---
+layout: default
+title:  "Geography Quiz"
+date:   2015-08-23 11:26:00
+---
+<style type="text/css">
+	body {
+		margin: 0px;
+	}
+	#canvas {
+		border: 1px solid grey;
+		height: 600px;
+		width: 970px;
+	}
+	#start_button {
+		border: 1px solid grey;
+		padding: 10px;
+		width: 120px;
+		text-align: center;
+		background-color: #FFF;
+		cursor: pointer;
+	}
+	#start_button:hover {
+		background-color: #DDD;
+	}
+	#options {
+		float: right;
+		padding-right: 20px;
+		padding-left: 20px;
+		border-left: 1px solid black;
+		height: 600px;
+		background-color:  #FFF;
+	}
+	#question_box {
+		height: 400px;
+		padding: 50px;
+	}
+	.ui-widget {
+		display: inline;
+	}
+	.submit {
+		margin-left: 10px;
+		padding: 4px;
+		padding-bottom: 3px;
+		border: 1px solid grey;
+		background-color: lightgrey;
+		display: inline;
+		cursor: pointer;
+	}
+	.submit:hover {
+		background-color: #DDD;
+	}
+	#score_board {
+		padding: 50px;
+		padding-top: 0px;
+		height: 50px;
+	}
+	.center {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.noselect {
+	    -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
+	}
+</style>
+<div id="canvas">
+	<div id="options">
+		<h2 style="text-align: center">Options</h2>
+		<input id="CB_all" type="checkbox" checked disabled="disabled">All Regions<br>
+		<div style="padding-left: 30px; margin-top: 5px; margin-bottom: 5px;">
+			<input name="AF" class="CB_region" type="checkbox" checked disabled="disabled">Africa<br>
+			<input name="AN" class="CB_region" type="checkbox" checked disabled="disabled">Antarctica<br>
+			<input name="AS" class="CB_region" type="checkbox" checked disabled="disabled">Asia<br>
+			<input name="AO" class="CB_region" type="checkbox" checked disabled="disabled">Australia & Oceania<br>
+			<input name="EU" class="CB_region" type="checkbox" checked disabled="disabled">Europe<br>
+			<input name="NA" class="CB_region" type="checkbox" checked disabled="disabled">North America<br>
+			<input name="SA" class="CB_region" type="checkbox" checked disabled="disabled">South America<br>
+		</div>
+		<input name="CA" type="checkbox" checked>Canadian Provinces & Territories<br>
+		<input name="MX" type="checkbox" disabled="disabled">Mexican States<br>
+		<input name="US" type="checkbox" disabled="disabled">US States & Territories<br>
+	</div>
+	<div style="background: #1E90FF; width: 670px; height: 600px;">
+		<div style="height: 280px;"></div>
+		<div id="start_button" class="center">Start Game</div>
+	</div>
+</div>
+<p>* Website is not designed for mobile</p>
+<link rel="stylesheet" href="/styles/leaflet_0_7_3.css" />
+<script src="/scripts/leaflet_0_7_3.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
+<script src="/scripts/geography_quiz_questions.js"></script>
+<script type="text/javascript">
+	//Checkbox event handlers
+	$('#CB_all').click(function() {
+	    var $this = $(this);
+	    if ($this.is(':checked')) {
+	        $(".CB_region").prop( "checked", true );
+	    } else {
+	        $(".CB_region").prop( "checked", false );
+	    }
+	});
+	$(".CB_region").click(function() {
+		var unchecked = 0, checked = 0;
+		$( '.CB_region' ).each(function( index ) {
+			var $this = $(this);
+			if ($this.is(':checked')) {
+				checked += 1;
+			} else {
+				unchecked += 1;
+			}
+		});
+		if (checked == 0) {
+			$('#CB_all').prop( "checked", false )
+		}
+		if (unchecked == 0) {
+			$('#CB_all').prop( "checked", true )
+		}
+	});
+
+	//Start button
+	var question_types = [], question_numbers;
+	function search_question() {
+		while (true) {
+			question = get_question();
+			if ($.inArray(question.category, question_types) > -1 && $.inArray(question.id, question_numbers) == -1) {
+				console.log("Found", question.category, question_types, question.id, question_numbers, $.inArray(question.category, question_types));
+				break;
+			} else {
+				console.log("Not Found", question.category, question_types, question.id, question_numbers, $.inArray(question.category, question_types));
+			}
+		}
+		return question
+	}
+	function get_question() {
+		var question = question_data.questions[Math.round(Math.random()*(question_data.count - 1)) + 1];
+		return question
+	}
+	function multiple_choice() {
+		if (question.structure == "administrative_capital") {
+  			$("#question_box").append('<h3 style="margin-top: 0px;">' + category_codes[question.category] + ':</h3><h1>What is the capital of ' + question.keyword + '?</h1><br><div class="ui-widget"><input id="tags"></div><div class="submit noselect">Submit</div>');
+  			$(function() {
+				var availableTags = ["ActionScript","AppleScript","Asp"];
+    				$( "#tags" ).autocomplete({
+      					source: canadian_cities
+    				});
+  			});
+  			$(".submit").click(function() {
+  				if (question.answer == $("#tags").val()) {
+  					console.log("Correct");
+  					$("#score").html(parseInt($("#score").html()) + 100);
+  					next_question()
+  				} else {
+  					console.log("Wrong");
+  					$("#lives").html(parseInt($("#lives").html()) + 1);
+  					if (parseInt($("#lives").html()) > 9) {
+  						console.log("You lost");
+  						end_game()
+  					} else {
+  						next_question()
+  					}
+  				}
+  			});
+		}
+	}
+	function ask_question() {
+		question = search_question();
+		switch(question.type) {
+			case "multiple_choice":
+				multiple_choice()
+				break;
+			default:
+				alert("Error with question type");
+		}
+	}
+	function next_question() {
+		$("#question_box").empty();
+		ask_question();
+	}
+	function end_game() {
+		var final_score = parseInt($("#score").html());
+		$("#canvas").html('<h1 style="margin-left: 100px; font-size: 400%;">Game over</h1><h1 style="margin-left: 100px;" class="center">Your final score was ' + final_score + 'pts</h1><div id="start_button" class="center" style="margin-top: 200px;">Play Again</div>');
+
+	}
+	function start_game() {
+		question_numbers = [];
+		$("input[ type='checkbox' ]").each( function() {
+			if (this.checked && typeof $(this).attr('name') !== typeof undefined && $(this).attr('name') !== false) {
+				question_types.push($(this).attr("name"));
+			}
+		})
+		$("#canvas").html('<div id="question_box"></div><div id="score_board"><div style="display:inline-block; float: right;"><span id="score">0</span> pts</div>Wrong Questions: <span id="lives">0</span>/10</div>');
+		ask_question();
+	}
+	$("body").on("click", "#start_button", function() {
+		start_game();
+	})
+</script>
