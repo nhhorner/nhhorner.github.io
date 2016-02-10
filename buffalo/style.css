@@ -1,0 +1,35 @@
+html {
+    height: 100%;
+}
+body {
+    font-family: arial;
+    color: #FFF;
+    margin: 0px;
+    height: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+#text {
+    font-size: 7vw;
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+}
+#button {
+    color: rgba(0,0,0,0.2);
+    font-weight: bold;
+    font-size: 9vw;
+    cursor: pointer;
+}
+#button:hover {
+    color: rgba(0,0,0,0.3);
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
