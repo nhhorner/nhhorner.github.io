@@ -8,13 +8,16 @@ body {
     height: 100%;
     padding-left: 10%;
     padding-right: 10%;
+    text-align: center;
+}
+#con_1 {
+    height: 70%;
 }
 #text {
     font-size: 7vw;
-    position:absolute;
-    top:50%;
-    left:0;
-    width:100%;
+}
+#con_2 {
+    height: 30%;
 }
 #button {
     color: rgba(0,0,0,0.2);
@@ -24,6 +27,11 @@ body {
 }
 #button:hover {
     color: rgba(0,0,0,0.3);
+}
+.center{
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
 }
 .noselect {
   -webkit-touch-callout: none;
