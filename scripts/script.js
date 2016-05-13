@@ -11,37 +11,6 @@ var resize_height = function() {
 resize_height();
 $(window).resize(resize_height);
 
-//Projects & Tidbits
-$("#project_title").hover(function() {
-    if (!projects_visible) {
-      $("#project_symbol").attr("src", "http://nealhorner.com/images/plusW.png");
-    } else {
-      $("#project_symbol").attr("src", "http://nealhorner.com/images/minusW.png");
-    }
-    resize_height();
-}, function() {
-    if (!projects_visible) {
-        $("#project_symbol").attr("src", "http://nealhorner.com/images/plus.png");
-    } else {
-      $("#project_symbol").attr("src", "http://nealhorner.com/images/minus.png");
-    }
-    resize_height();
-});
-
-var projects_visible = false;
-$("#project_title").click(function() {
-    if (!projects_visible) {
-        $("#project_symbol").html("-");
-        $(".project").css("display", "block");
-        projects_visible = true;
-    } else {
-        $("#project_symbol").html("+");
-        $(".project").css("display", "none");
-        projects_visible = false;
-    }
-    resize_height();
-});
-
 //Random Walk
 $("#random_walk").append("<svg></svg>");
 
@@ -51,10 +20,7 @@ var x_max = $("#random_walk").width();
 var walking = true;
 var line_count = 0;
 var points = [[0,0],[0,y_max],[x_max,y_max],[x_max,0]]
-var color_palette = ["#504D7F","#9C8105","#244031","#E57769"]; //Orginal
-//var color_palette = ["#B01A06","#5E04BA","#11BA09","#B08F03"]; //Bright
-//var color_palette = ["#4C0B03","#2C0257","#085704","#4C3E01"]; //Dark
-//var color_palette = ["#821305","#2C0257","#085704","#8A7003"]; //Hybrid
+var color_palette = ["#504D7F","#9C8105","#244031","#E57769"];
 
 var nextPoint = function(set) {
   var random_number = Math.random();
@@ -105,17 +71,4 @@ var walk = function (points) {
     }
   }, 1);
 }
-
 walk(points);
-
-//Link Hover
-var src_toggle = {
-  "./images/GitHub-Mark-64px.png":"./images/GitHub-Mark-Light-64px.png", "./images/GitHub-Mark-Light-64px.png":"./images/GitHub-Mark-64px.png",
-  "./images/In-Black-66px-R.png":"./images/In-White-66px-R.png", "./images/In-White-66px-R.png":"./images/In-Black-66px-R.png"
-}
-$("a")
-  .mouseover(function() {
-    $(this).children("img").attr("src", src_toggle[$(this).children("img").attr("src")]);
-  }) .mouseout(function() {
-    $(this).children("img").attr("src", src_toggle[$(this).children("img").attr("src")]);
-  });
