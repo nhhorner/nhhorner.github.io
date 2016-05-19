@@ -16,23 +16,28 @@ date:   2015-08-17 17:42:00
 	}
 	#title {
 		font-weight: bold;
-		font-size: 120%;
+		font-size: 200%;
 	}
 	.pannel {
 		background-color: #FFF;
 		padding: 10px;
-		text-align: center;
+		text-align: left;
 		border-radius: 4px;
 		border: 1px solid #DDD;
 		box-shadow: 0 1px 4px 0px rgba(0,0,0,0.85);
+		max-width: 500px;
 	}
 	#country_name {
 		font-weight: bold;
 		font-size: 150%;
 	}
+	#result {
+		display: none;
+	}
 </style>
 <div id="map"></div>
-<p>Data from <a href="https://github.com/johan/world.geo.json">https://github.com/johan/world.geo.json</a></p>
+<p><strong>Instructions:</strong> Start the game by using the main menu in the upper left hand corner. Pan and zoom around the map to find the county prompted in the main menu. Select countries by clicking on them. When you are confident with the country you have selected, click submit in the main menu. The game will continue for ten turns.</p>
+<p>Country Data from <a href="https://github.com/johan/world.geo.json">https://github.com/johan/world.geo.json</a></p>
 <div style="display: none;" id="selected"></div>
 <link rel="stylesheet" href="/styles/leaflet_0_7_3.css" />
 <script src="/scripts/leaflet_0_7_3.js"></script>
@@ -50,27 +55,16 @@ date:   2015-08-17 17:42:00
 	    return this._div;
 	};
 	pannel.update = function (props) {
-	    this._div.innerHTML = '<span id="title">Country Quiz</span><div id="game_pannel"><input style="margin-top: 10px;" type="button" value="Start Game" onclick="start_game()"></div>';
+	    this._div.innerHTML = '<span id="title">Country Quiz</span><div id="game_pannel"><div align="center"><input style="margin-top: 10px;" type="button" value="Start Game" onclick="start_game()"></div></div>';
 	};
 	pannel.addTo(map);
-
-	//Result Pannel
-	var results = L.control({position:'bottomleft'});
-	results.onAdd = function (map) {
-	    this._div = L.DomUtil.create('div', 'results');
-	    this.update();
-	    return this._div;
-	};
-	results.update = function (props) {
-	    this._div.innerHTML = '<div id="result"><table><tr id="tb1" style="text-align: center;"></tr><tr id="tb2" style="font-size: 60%; text-align: center;"></tr></table></div>';
-	};
-	results.addTo(map);
 </script>
 <script src="/scripts/jquery.min.js"></script>
 <script src="/scripts/country_data.js"></script>
 <script>
 	//Geojson
-	var game_started = false, score, played_countries;
+	var active_turn = false, score, played_countries, selected_answer, correct_popup, incorrect_popup;
+	var naughty_list = ["Antarctica", "Western Sahara"]
 	var countries;
 	function style(feature) {
 	    return {
@@ -86,35 +80,22 @@ date:   2015-08-17 17:42:00
 	    layer.setStyle({
 	        fillOpacity: 0.8
 	    });
-	    if (!L.Browser.ie && !L.Browser.opera) {
-	        layer.bringToFront();
-	    }
 	}
 	function resetHighlight(e) {
-	    //countries.resetStyle(e.target);
 	    var layer = e.target;
 	    layer.setStyle({
 	        fillOpacity: 1
 	    });
-	    if (!L.Browser.ie && !L.Browser.opera) {
-	        layer.bringToFront();
-	    }
 	}
 	function selectFeature(e) {
-		$("#selected").html(e.target.feature.properties.name);
-		//Unselect Feature
-		//countries.resetStyle(e);
-		//countries.resetStyle(e.target);
+		selected_answer = e.target;
 		countries.setStyle({fillColor: "#5bb4cc"});
 		//Select Feature
-		if (game_started) {
+		if (active_turn) {
 			var layer = e.target;
 		    layer.setStyle({
 		        fillColor: "#CC735B"
 		    });
-		    if (!L.Browser.ie && !L.Browser.opera) {
-		        layer.bringToFront();
-		    }
 			$("#submit").prop('disabled', false);
 		}
 	}
@@ -126,29 +107,60 @@ date:   2015-08-17 17:42:00
 	    });
 	}
 	countries = L.geoJson(countries_data, {style: style, onEachFeature: onEachFeature}).addTo(map);
+
 	var country_list = [];
 	for (i = 0; i < countries_data.features.length; i++) {
 		country_list.push(countries_data.features[i].properties.name);
 	}
+	function find_center(f) {
+		var lats = [], lngs = [], c_lat, c_lng;
+		coordinates = f.geometry.coordinates;
+		for (var i = 0; i < coordinates.length; i++) {
+			for (var j = 0; j < coordinates[i].length; j++) {
+				if (Array.isArray(coordinates[i][j][0])) {
+					for (var h = 0; h < coordinates[i][j].length; h++) {
+						if (f.properties.name == "Russia" && coordinates[i][j][h][0] < 0) {
+							console.log("I can see Russia from my house")
+						} else if (f.properties.name == "United States of America" && coordinates[i][j][h][0] < -123) {
+							console.log("William Seward")
+						} else {
+							lats.push(coordinates[i][j][h][1])
+							lngs.push(coordinates[i][j][h][0])
+						}
+					}
+				} else {
+					if (f.properties.name == "Russia" && coordinates[i][j][0] < 0) {
+						console.log("I can see Russia from my house")
+					} else if (f.properties.name == "United States of America" && coordinates[i][j][h][0] < -123) {
+						console.log("William Seward")
+					} else {
+						lats.push(coordinates[i][j][1])
+						lngs.push(coordinates[i][j][0])
+					}
+				}
+			}
+		}
+		c_lat = (Math.max.apply(null,lats) + Math.min.apply(null,lats)) / 2;
+		c_lng = (Math.max.apply(null,lngs) + Math.min.apply(null,lngs)) / 2;
+		return [c_lng, c_lat];
+	}
 
 	//Start Game
 	var start_game = function() {
-		game_started = true;
+		active_turn = true;
 		score = 0;
 		played_countries = [];
 		$("#game_pannel").empty();
-		$("#game_pannel").html('<div style="font-size: 80%;">Question <span id="question_number">1</span> of 10<br>Identify:<br><span id="country_name"></span><br><input id="submit" type="button" value="Submit" disabled onclick="check_answer()"></div>');
+		$("#game_pannel").html('<div style="font-size: 80%;"><div style="margin-bottom: 5px;">Question <span id="question_number">1</span> of 10</div><div id="question"><span style="font-size:150%">Identify</span> <span id="country_name"></span><br><div align="center" style="margin-top: 10px;"><input id="submit" type="button" value="Submit" disabled></div></div><div id="result"><div id="result_content"></div><div id="result_next" align="center"><input id="next" type="button" value="Next" onclick="next_step()" style="margin-top: 10px"></div></div></div>'); //onclick="check_answer()"
 		get_next();
 		map.fitBounds([[-50,160],[75,-160]]).setMaxBounds([[-180,360],[180,-360]]);
-		$("#tb1").empty();
-		$("#tb2").empty();
 	}
 
 	//Play Game
 	var get_next = function() {
 		while(true) {
 			country = country_list[Math.floor(Math.random()*country_list.length)]
-			if($.inArray(country, played_countries) == -1) {
+			if($.inArray(country, played_countries) == -1 && $.inArray(country, naughty_list) == -1) {
 				played_countries.push(country);
 				break;
 			}
@@ -156,25 +168,69 @@ date:   2015-08-17 17:42:00
 		$("#country_name").html(country);
 		$("#submit").prop('disabled', true);
 	}
+
+	//difference = new L.geoJson([], {color: '#444', weight: 2, opacity: 1, clickable: false, lineCap: "round"}).addTo(map);
 	var check_answer = function() {
-		if ($("#country_name").html() == $("#selected").html()) {
-			$("#tb1").append('<td style="color: #4daf4a;"><div style="padding-right: 20px;">' + $("#country_name").html() + '</div></td>');
-			$("#tb2").append('<td></td>');
+		active_turn = false
+		$("#question").css("display", "none")
+		$("#result").css("display", "block")
+		$("#submit").prop('disabled', true);
+		if ($("#country_name").html() == selected_answer.feature.properties.name) {
+			// right
+			$("#result_content").html("<span style='font-weight: bold; font-size: 150%;'>Correct Answer</span>")
+			countries.setStyle({fillColor: "#5bb4cc"});
+			selected_answer.setStyle({fillColor: "green"})
+			map.setView([find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]])
+			popup("<div align='center'>" + selected_answer.feature.properties.name + "</div>", [find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]], true)
+			map.fitBounds([[find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]],[find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]]], { animate: true, duration: 0.5, padding: [150,150] })
 			score += 1;
 		} else {
-			$("#tb1").append('<td style="color: #e41a1c;"><div style="padding-right: 20px;">' + $("#country_name").html() + '</div></td>');
-			$("#tb2").append('<td><div style="padding-right: 20px;">' + $("#selected").html() + '</div></td>');
+			// wrong
+			var correct_answer;
+			$("#result_content").html("<span style='font-weight: bold; font-size: 150%;'>Incorrect Answer</span><br><span>You were asked to identify " + $("#country_name").html() + ", but you incorrectly chose " + selected_answer.feature.properties.name + "</span>")
+			for (var key in countries._layers) {
+				if (countries._layers[key].feature.properties.name == $("#country_name").html()) {
+					correct_answer = countries._layers[key]
+				}
+			}
+			selected_answer.setStyle({fillColor: "red"})
+			correct_answer.setStyle({fillColor: "green"})
+
+			popup("<div align='center'>" + selected_answer.feature.properties.name + "</div>", [find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]], false)
+			popup("<div align='center'>" + correct_answer.feature.properties.name + "</div>", [find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]], true)
+			//difference.addData([{"type": "LineString","coordinates": [find_center(selected_answer.feature),find_center(correct_answer.feature)]}]);
+			map.fitBounds([[find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]],[find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]]], { animate: true, duration: 0.5, padding: [150,150] })
 		}
+	}
+
+	var popup = function(m,l,t) {
+		if (t) {
+			correct_popup = L.popup({"closeButton": false, "closeOnClick": false}).setLatLng(new L.LatLng(l[0], l[1])).setContent(m).addTo(map)
+		} else {
+			incorrect_popup = L.popup({"closeButton": false, "closeOnClick": false}).setLatLng(new L.LatLng(l[0], l[1])).setContent(m).addTo(map)
+		}
+	}
+
+	$(document).on("click", "#submit", function() {
+		check_answer()
+	})
+
+	var next_step = function() {
+		map.closePopup(correct_popup)
+		map.closePopup(incorrect_popup)
 		countries.setStyle({fillColor: "#5bb4cc"});
+		//difference.clearLayers()
+		$("#result").css("display", "none")
+		$("#question").css("display", "block")
 		map.fitBounds([[-50,160],[75,-160]]).setMaxBounds([[-180,360],[180,-360]]);
 		if(parseInt($("#question_number").html()) != 10) {
 			$("#question_number").html(parseInt($("#question_number").html()) + 1);
 			get_next();
+			active_turn = true;
 		} else {
 			game_over();
 		}
 	}
-
 	//End of Game
 	var game_over = function() {
 		$("#game_pannel").empty();
