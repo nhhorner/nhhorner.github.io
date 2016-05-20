@@ -44,7 +44,6 @@ date:   2015-08-17 17:42:00
 <script type="text/javascript">
 	//Map
 	var map = L.map('map', {minZoom: 2, maxZoom: 8, zoomControl: false}).fitBounds([[-50,160],[75,-160]]).setMaxBounds([[-180,360],[180,-360]]);
-
 	new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
 	//Information Pannel
@@ -151,7 +150,7 @@ date:   2015-08-17 17:42:00
 		score = 0;
 		played_countries = [];
 		$("#game_pannel").empty();
-		$("#game_pannel").html('<div style="font-size: 80%;"><div style="margin-bottom: 5px;">Question <span id="question_number">1</span> of 10</div><div id="question"><span style="font-size:150%">Identify</span> <span id="country_name"></span><br><div align="center" style="margin-top: 10px;"><input id="submit" type="button" value="Submit" disabled></div></div><div id="result"><div id="result_content"></div><div id="result_next" align="center"><input id="next" type="button" value="Next" onclick="next_step()" style="margin-top: 10px"></div></div></div>'); //onclick="check_answer()"
+		$("#game_pannel").html('<div style="font-size: 80%;"><div style="margin-bottom: 5px;">Question <span id="question_number">1</span> of 10</div><div id="question"><span style="font-size:150%">Identify</span> <span id="country_name"></span><br><div align="center" style="margin-top: 10px;"><input id="submit" type="button" value="Submit" disabled></div></div><div id="result"><div id="result_content"></div><div id="result_next" align="center"><input id="next" type="button" value="Next" onclick="next_step()" style="margin-top: 10px"></div></div></div>');
 		get_next();
 		map.fitBounds([[-50,160],[75,-160]]).setMaxBounds([[-180,360],[180,-360]]);
 	}
@@ -169,7 +168,6 @@ date:   2015-08-17 17:42:00
 		$("#submit").prop('disabled', true);
 	}
 
-	//difference = new L.geoJson([], {color: '#444', weight: 2, opacity: 1, clickable: false, lineCap: "round"}).addTo(map);
 	var check_answer = function() {
 		active_turn = false
 		$("#question").css("display", "none")
@@ -182,8 +180,8 @@ date:   2015-08-17 17:42:00
 			selected_answer.setStyle({fillColor: "green"})
 			map.setView([find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]])
 			popup("<div align='center'>" + selected_answer.feature.properties.name + "</div>", [find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]], true)
-			map.fitBounds([[find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]],[find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]]], { animate: true, duration: 0.5, padding: [150,150] })
 			score += 1;
+			console.log(score)
 		} else {
 			// wrong
 			var correct_answer;
@@ -198,7 +196,6 @@ date:   2015-08-17 17:42:00
 
 			popup("<div align='center'>" + selected_answer.feature.properties.name + "</div>", [find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]], false)
 			popup("<div align='center'>" + correct_answer.feature.properties.name + "</div>", [find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]], true)
-			//difference.addData([{"type": "LineString","coordinates": [find_center(selected_answer.feature),find_center(correct_answer.feature)]}]);
 			map.fitBounds([[find_center(selected_answer.feature)[1],find_center(selected_answer.feature)[0]],[find_center(correct_answer.feature)[1],find_center(correct_answer.feature)[0]]], { animate: true, duration: 0.5, padding: [150,150] })
 		}
 	}
@@ -219,7 +216,6 @@ date:   2015-08-17 17:42:00
 		map.closePopup(correct_popup)
 		map.closePopup(incorrect_popup)
 		countries.setStyle({fillColor: "#5bb4cc"});
-		//difference.clearLayers()
 		$("#result").css("display", "none")
 		$("#question").css("display", "block")
 		map.fitBounds([[-50,160],[75,-160]]).setMaxBounds([[-180,360],[180,-360]]);
