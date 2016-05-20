@@ -200,8 +200,7 @@ date:   2016-05-18 11:26:00
 
   // Size of canvas
   var width = 970,
-    height = 970,
-    margin = {top: 0, right: 0, bottom: 0, left: 0};
+    height = 970;
 
   //Zooming
   var zoom = d3.behavior.zoom()
@@ -325,9 +324,10 @@ date:   2016-05-18 11:26:00
   }
 
   var svg = d3.select("#graph").append("svg")
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", width)
       .attr("height", height)
     .append("g")
+      .attr("transform", "translate(10,0)")
       .call(zoom);//.attr("transform", "translate(-500,0)")
 
   var rect = svg.append("rect")
@@ -412,7 +412,7 @@ date:   2016-05-18 11:26:00
 
   // Text label for nodes
   node.append("text")
-      .attr("dx", function(d) { return d.children ? -20 : 20; })
+      .attr("dx", function(d) { return d.children ? -13 : 13; })
       .attr("dy", 3)
       .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
       .text(function(d) { return d.name; });
