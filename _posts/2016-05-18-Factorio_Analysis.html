@@ -5,8 +5,7 @@ date:   2016-05-18 11:26:00
 ---
 <style media="screen">
   #graph {
-    width: 1500px;
-    padding: 20px;
+    width: 970px;
     background-color: white;
     margin-left: auto;
     margin-right: auto;
@@ -19,7 +18,8 @@ date:   2016-05-18 11:26:00
   }
 
   .node {
-    font: 10px sans-serif;
+    font-family: sans-serif;
+    font-size: 0.3em;
     text-shadow: 1px 1px 0px #FFF;
   }
 
@@ -199,8 +199,37 @@ date:   2016-05-18 11:26:00
   }
 
   // Size of canvas
-  var width = 1500,
-    height = 1000;
+  var width = 970,
+    height = 970,
+    margin = {top: 0, right: 0, bottom: 0, left: 0};
+
+  //Zooming
+  var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+
+  var drag = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("dragstart", dragstarted)
+    .on("drag", dragged)
+    .on("dragend", dragended);
+
+  function zoomed() {
+    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+  function dragstarted(d) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+  }
+
+  function dragged(d) {
+    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  }
+
+  function dragended(d) {
+    d3.select(this).classed("dragging", false);
+  }
 
   // Vars for positioning nodes into columns
   var nodes_with_pos = 0,
@@ -295,32 +324,37 @@ date:   2016-05-18 11:26:00
     }
   }
 
-  // var link = svg.selectAll(".link")
-  //     .data(links)
-  //   .enter().append("path")
-  //     .attr("class", "link")
-  //     .attr("d", diagonal);
-
   var svg = d3.select("#graph").append("svg")
-      .attr("width", width)
+      .attr("width", width + margin.left + margin.right)
       .attr("height", height)
+    .append("g")
+      .call(zoom);//.attr("transform", "translate(-500,0)")
 
+  var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+
+  var container = svg.append("g");
+
+  // image icons
   var defs = svg.append('svg:defs');
 
   for (var i = 0; i < data.length; i++) {
     defs.append("svg:pattern")
         .attr("id", data[i].img)
-        .attr("width", 30)
-        .attr("height", 30)
+        .attr("width", 20)
+        .attr("height", 20)
         .append("svg:image")
         .attr("xlink:href", '/images/factorio/' + data[i].img + '.png')
-        .attr("width", 30)
-        .attr("height", 30)
+        .attr("width", 20)
+        .attr("height", 20)
         .attr("x", 0)
         .attr("y", 0);
   }
 
-  var link = svg.selectAll("line")
+  var link = container.selectAll("line")
       .data(links)
     .enter().append("line")
       .attr("id", function(d) {return d.child + "" + d.parent})
@@ -330,7 +364,7 @@ date:   2016-05-18 11:26:00
   // var diagonal = d3.svg.diagonal()
   //     .projection(function(d) { return [d.y, d.x]; });
 
-  var node = svg.selectAll(".node")
+  var node = container.selectAll(".node")
       .data(data)
     .enter().append("g")
       .attr("id", function(d) { return d.id})
@@ -339,7 +373,7 @@ date:   2016-05-18 11:26:00
 
   // Circle background
   node.append("circle")
-      .attr("r", 15)
+      .attr("r", 10)
 
   // highlight relationships on mouseover
   function select_parents(d) {
@@ -371,7 +405,7 @@ date:   2016-05-18 11:26:00
 
   // Circle with image and on mouseover events
   node.append("circle")
-      .attr("r", 15)
+      .attr("r", 10)
       .style("fill", function(d) { return "url(#" + d.img + ")"})
       .on("mouseover", function(d){highlight(d)})
       .on("mouseout", function(d){clear_selection()});
