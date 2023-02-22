@@ -1,74 +1,103 @@
+//Random Walk
+canvas_el = document.createElement('canvas');
+canvas_el.setAttribute("id", "canvas");
+document.getElementById("random_walk").appendChild(canvas_el);
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+const step_distance = 10;
+const max_length = 8000;
+const y_max = document.getElementById("random_walk").clientHeight;
+const x_max = document.getElementById("random_walk").clientHeight;
+const lines = [[{x:0, y:0}],[{x:0, y:y_max}],[{x:x_max, y:y_max}],[{x:x_max, y:0}]]
+const color_palette = ["#504D7F", "#9C8105", "#244031", "#E57769"];
+
 //Resize
-var resize_height = function() {
-  if ($(window).height() > $("#main_height").height()) {
-    $("#main").height($(window).height());
-    $("#main_container").height($(window).height());
-  } else {
-    $("#main").height($("#main_height").height());
-    $("#main_container").height($("#main_height").height());
-  }
+function resize_height() {
+  let main_height = document.getElementById("main_height").clientHeight;
+  let window_height = window.clientHeight;
+  let new_height = Math.max(main_height, window_height);
+  document.getElementById("main").style.height = `${new_height}px`;
+  document.getElementById("main_container").style.height = `${new_height}px`;
+  canvas.height = new_height;
 }
 resize_height();
-$(window).resize(resize_height);
+window.onresize = resize_height;
 
-//Random Walk
-$("#random_walk").append("<svg></svg>");
 
-var step_distance = 10;
-var y_max = $("#random_walk").height();
-var x_max = $("#random_walk").width();
-var walking = true;
-var line_count = 0;
-var points = [[0,0],[0,y_max],[x_max,y_max],[x_max,0]]
-var color_palette = ["#504D7F","#9C8105","#244031","#E57769"];
 
-var nextPoint = function(set) {
-  var random_number = Math.random();
-  if (random_number < 0.125) {set[1] += step_distance}
-  if (random_number >= 0.125 && random_number < 0.25) {set[1] += step_distance; set[0] += step_distance}
-  if (random_number >= 0.25 && random_number < 0.375) {set[0] += step_distance}
-  if (random_number >= 0.375 && random_number < 0.5) {set[1] -= step_distance; set[0] += step_distance}
-  if (random_number >= 0.5 && random_number < 0.625) {set[1] -= step_distance;}
-  if (random_number >= 0.625 && random_number < 0.75) {set[1] -= step_distance; set[0] -= step_distance}
-  if (random_number >= 0.75 && random_number < 0.875) {set[0] -= step_distance}
-  if (random_number >= 0.875) {set[1] += step_distance; set[0] -= step_distance}
+function getNextPoint(point) {
+  const heading = Math.floor(Math.random() * 8); 
+  if (heading === 0) {point.y += step_distance}
+  else if (heading === 1) {point.y += step_distance; point.x += step_distance}
+  else if (heading === 2) {point.x += step_distance}
+  else if (heading === 3) {point.y -= step_distance; point.x += step_distance}
+  else if (heading === 4) {point.y -= step_distance;}
+  else if (heading === 5) {point.y -= step_distance; point.x -= step_distance}
+  else if (heading === 6) {point.x -= step_distance}
+  else if (heading === 7) {point.y += step_distance; point.x -= step_distance}
 
-  if (set[0] < 0) {set[0] = 0;}
-  if (set[0] > $("#random_walk").width()) {set[0] -= step_distance;}
-  if (set[1] < 0) {set[1] = 0;}
-  if (set[1] > $("#random_walk").height()) {set[1] -= step_distance;}
+  // Boundry limits
+  if (point.x < 0) {point.x = 0;}
+  else if (point.x > document.getElementById("random_walk").clientWidth) {point.x -= step_distance;}
+  if (point.y < 0) {point.y = 0;}
+  else if (point.y > document.getElementById("random_walk").clientHeight) {point.y -= step_distance;}
 
-  return [set[0],set[1]]
+  return point
 }
 
-var walk = function (points) {
-  $("svg").height($("#random_walk").height());
+// function walk(points) {
+//   $("svg").height($("#random_walk").height());
 
-  for (var set in points) {
-    old_point_x = points[set][0];
-    old_point_y = points[set][1];
-    points[set] = nextPoint(points[set]);
-    var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
-    newLine.setAttribute('x1',old_point_x);
-    newLine.setAttribute('y1',old_point_y);
-    newLine.setAttribute('x2',points[set][0]);
-    newLine.setAttribute('y2',points[set][1]);
-    newLine.setAttribute('stroke', color_palette[set]);
-    newLine.setAttribute('stroke-width','1');
-    $("svg").append(newLine);
+//   for (var pair in points) {
+//     old_point_x = points[pair][0];
+//     old_point_y = points[pair][1];
+//     points[pair] = nextPoint(points[pair]);
+//     var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+//     newLine.setAttribute('x1',old_point_x);
+//     newLine.setAttribute('y1',old_point_y);
+//     newLine.setAttribute('x2',points[pair][0]);
+//     newLine.setAttribute('y2',points[pair][1]);
+//     newLine.setAttribute('stroke', color_palette[pair]);
+//     newLine.setAttribute('stroke-width','1');
+//     $("svg").append(newLine);
 
-    line_count += 1;
+//     line_count += 1;
 
-    if (line_count > 8000) {
-        $("svg").find(':first-child').remove();
-        line_count -= 1;
+//     if (line_count > 8000) {
+//         $("svg").find(':first-child').remove();
+//         line_count -= 1;
+//     }
+//   }
+// }
+
+
+(function () {
+
+  function walk() {
+    // window.requestAnimationFrame( walk );
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+    for(let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      line.push(getNextPoint(line[line.length - 1]))
+      if (line.length > max_length) {line.shift()}
+
+      console.log(i, line)
+
+      ctx.beginPath();
+      for(let j = 0; j < line.length; j++) {
+        let point = line[j];
+        ctx.lineTo(point.x, point.y);
+      }
+
+      ctx.strokeStyle=color_palette[i];
+      ctx.lineWidth=1;
+      ctx.stroke();
     }
+  
   }
-
-  window.setTimeout(function() {
-    if (walking) {
-        walk(points);
-    }
-  }, 1);
-}
-walk(points);
+  
+  walk();
+})();

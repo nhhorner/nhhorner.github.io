@@ -1,0 +1,111 @@
+---
+layout: default
+title:  "Soil Map"
+date:   2016-12-04 00:00:00
+---
+<style>
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+}
+.fill {
+  fill: #000;
+}
+.land {
+  fill: #fff;
+}
+.boundary {
+  fill: none;
+  stroke: #000;
+  stroke-width: 0.5px;
+}
+.points {
+  fill: red;
+  stroke: none;
+}
+.voronoi {
+  fill: none;
+  stroke: blue;
+  stroke-width: 0.5px;
+}
+</style>
+
+<div id="map">
+  <svg width="960" height="960"></svg>
+</div>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script>
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var projection = d3.geoMercator()
+    .scale((width - 3) / (2 * Math.PI))
+    .translate([width / 2, height / 2]);
+
+var path = d3.geoPath()
+    .projection(projection)
+    .pointRadius(1.5);
+
+d3.queue()
+    .defer(d3.json, "../data/world-50m.json")
+    .defer(d3.tsv, "../data/soil.tsv")
+    .await(ready);
+
+function ready(error, countries, soil) {
+  if (error) throw error;
+
+  svg.append("defs").append("path")
+      .datum({type: "Sphere"})
+      .attr("id", "sphere")
+      .attr("d", path);
+
+  svg.append("use")
+      .attr("class", "stroke")
+      .attr("xlink:href", "#sphere");
+
+  svg.append("use")
+      .attr("class", "fill")
+      .attr("xlink:href", "#sphere");
+
+  svg.append("path")
+    .datum(topojson.feature(countries, countries.objects.land))
+    .attr("class", "land")
+    .attr("d", path);
+
+  svg.insert("path", ".cats")
+      .datum(topojson.mesh(countries, countries.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum({type: "MultiPoint", coordinates: soil})
+      .attr("class", "points")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(d3.voronoi()
+          .extent([[-1, -1], [width + 1, height + 1]])
+          .polygons(soil.map(projection)))
+      .attr("class", "voronoi")
+      .attr("d", function(d) {
+        return "M" + d
+            .filter(function(d) { return d != null; })
+            .map(function(d) { return d.join("L"); })
+            .join("ZM") + "Z";
+      });
+
+  svg.selectAll(".voronoi")
+      .on("mouseover", function(d, i) {
+        d3.select(this)
+          .style('fill', d3.rgb(31, 120, 180));
+      })
+      .on("mouseout", function(d, i) {
+        d3.select(this)
+          .style("fill", "none");
+      });
+}
+
+</script>
