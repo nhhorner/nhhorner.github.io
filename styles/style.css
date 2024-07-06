@@ -119,10 +119,9 @@ nav [class*='fa-'] {
     left: 0;
     z-index: -1;
 }
-svg {
-    height: 100px;
+canvas {
+    height: 100%;
     width: 100%;
-    float: left;
 }
 #main_height {
     padding-top: 1px;
