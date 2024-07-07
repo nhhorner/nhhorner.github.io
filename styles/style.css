@@ -38,7 +38,8 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+p {
     margin: 0;
     /* font-family: var(--theme-font-limelight); */
     font-size: 2.5rem;
@@ -82,25 +83,13 @@ nav [class*='fa-'] {
     color: var(--aqua);
 }
 
-#intro {
-    padding: 4rem 1rem 10rem 1rem;
-    padding-bottom: 10rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-#intro p {
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.content {
+.content-container {
     max-width: 800px;
     margin: 0 auto;
 }
 
 @media (min-width: 800px) {
-    .content {
+    .content-container {
         max-width: 1200px;
         margin: 0 auto;
     }
@@ -111,7 +100,7 @@ nav [class*='fa-'] {
     }
 }
 
-#random_walk {
+#random-walk-container {
     height: 100%;
     width: 100%;
     position: fixed;
@@ -122,16 +111,6 @@ nav [class*='fa-'] {
 canvas {
     height: 100%;
     width: 100%;
-}
-#main_height {
-    padding-top: 1px;
-}
-#main_container {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
 }
 #main {
     height: 100%;
@@ -146,9 +125,7 @@ canvas {
 #title {
     font-size: 700%;
 }
-p {
-    font-size: 185%;
-}
+
 a {
     color: #0079a3;
     text-decoration: none;
@@ -200,4 +177,14 @@ a {
 }
 .projects_containter a {
     text-decoration: underline;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    margin: 20px 0px;
 }
