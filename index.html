@@ -16,87 +16,90 @@
         ></script>
     </head>
     <body>
-        <div id="random_walk"></div>
-        <main>
-            <header>
-                <nav class="content">
-                    <ul>
-                        <li>
-                            <h1>
-                                <a href="/">
-                                    <span class="fa-solid fa-code"></span> Neal
-                                    Horner
-                                </a>
-                            </h1>
-                        </li>
-                        <li><a href="#about">About</a></li>
-                        <li>
-                            <a
-                                href="https://github.com/nealhorner"
-                                target="_blank"
-                            >
-                                <span class="fa fa-github"></span> GitHub
+        <div id="random-walk-container"></div>
+        <header class="content-container">
+            <nav class="glass-card">
+                <ul>
+                    <li>
+                        <h1>
+                            <a href="#">
+                                <span class="fa-solid fa-code"></span> Neal
+                                Horner
                             </a>
-                        </li>
-                        <li>
-                            <a
-                                href="https://www.linkedin.com/in/nealhorner"
-                                target="_blank"
-                            >
-                                <span class="fa fa-linkedin-square"></span>
-                                LinkedIn
-                            </a>
-                        </li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <section class="content">
-                <h1>Hi my name is Neal Horner</h1>
-            </section>
-            <section id="about" class="content">
-                <p>
-                    I am a geographer, programmer and analyst, living and
-                    working in the San Francisco Bay Area. This website is a
-                    place where I will post things that I make or find
-                    interesting.
-                </p>
-                <p>
-                    Currently, I am working in the Cupertino as a Analytics
-                    Manager.
-                </p>
-                <p>
-                    In 2015, I graduated from the
-                    <a class="underline" href="https://uoregon.edu/"
-                        >University of Oregon</a
-                    >
-                    with a Bachelor of Science in
-                    <a class="underline" href="http://geography.uoregon.edu/"
-                        >Geography</a
-                    >
-                    and minors in
-                    <a class="underline" href="https://www.cs.uoregon.edu/"
-                        >Computer Information Technology</a
-                    >
-                    and
-                    <a class="underline" href="http://envs.uoregon.edu/"
-                        >Environmental Studies</a
-                    >.
-                </p>
-                <p>GIS Technician with Apex Systems</p>
-                <p></p>
-            </section>
-        </main>
-        <div id="main_container">
-            <div id="contact" class="content">
-                <h2>Contact</h2>
-                <p>
-                    <span class="fa fa-envelope"></span>
-                    <a href="mailto:thenealhorner@gmail.com">Send</a>
-                </p>
+                        </h1>
+                    </li>
+                    <li><a href="#about">About</a></li>
+                    <li>
+                        <a href="https://github.com/nealhorner" target="_blank">
+                            <span class="fa fa-github"></span> GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.linkedin.com/in/nealhorner"
+                            target="_blank"
+                        >
+                            <span class="fa fa-linkedin-square"></span>
+                            LinkedIn
+                        </a>
+                    </li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="content-container">
+            <div class="glass-card">
+                <section>
+                    <h1>Hi my name is Neal Horner</h1>
+                </section>
+                <section id="about">
+                    <p>
+                        I am a geographer, programmer and analyst, living and
+                        working in the San Francisco Bay Area. This website is a
+                        place where I will post things that I make or find
+                        interesting.
+                    </p>
+                    <p>
+                        Currently, I am working in the Cupertino as a Analytics
+                        Manager.
+                    </p>
+                    <p>
+                        In 2015, I graduated from the
+                        <a class="underline" href="https://uoregon.edu/"
+                            >University of Oregon</a
+                        >
+                        with a Bachelor of Science in
+                        <a
+                            class="underline"
+                            href="http://geography.uoregon.edu/"
+                            >Geography</a
+                        >
+                        and minors in
+                        <a class="underline" href="https://www.cs.uoregon.edu/"
+                            >Computer Information Technology</a
+                        >
+                        and
+                        <a class="underline" href="http://envs.uoregon.edu/"
+                            >Environmental Studies</a
+                        >.
+                    </p>
+                    <p>GIS Technician with Apex Systems</p>
+                </section>
             </div>
-        </div>
-        <script type="text/javascript" src="./scripts/random_walk.js"></script>
+            <div class="glass-card">
+                <div id="contact" class="content">
+                    <h2>Contact</h2>
+                    <p>
+                        <span class="fa fa-envelope"></span>
+                        <a href="mailto:thenealhorner@gmail.com">Send</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+        <script
+            type="text/javascript"
+            src="./scripts/random-walkers.js"
+        ></script>
         <script>
             ;(function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r
